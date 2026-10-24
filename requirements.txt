@@ -1,0 +1,8 @@
+customtkinter
+geocoder
+Pillow
+psutil
+pyautogui
+pycaw
+python-weather
+winotify

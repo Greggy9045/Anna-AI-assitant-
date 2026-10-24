@@ -8,13 +8,36 @@ from filter import process_message
 from elements import create_circle_animation
 
 root = ctk.CTk()
+typing_after_id = None
 
 # Functions / Definitions (I love em)
+def type_greeting(text):
+    global typing_after_id
+
+    if typing_after_id is not None:
+        root.after_cancel(typing_after_id)
+    typing_after_id = None
+    greeting_msg.configure(text="")
+
+    def show_next_character(index):
+        global typing_after_id
+
+        greeting_msg.configure(text=text[:index])
+        if index < len(text):
+            typing_after_id = root.after(35, show_next_character, index + 1)
+        else:
+            typing_after_id = None
+
+    if text:
+        show_next_character(1)
+
+
 def send_msg(event=None):
     msg = text_box.get()
 
     if msg.strip():
         filtered_msg = process_message(msg)
+        type_greeting(filtered_msg)
         print("Sending to LLM:", filtered_msg)
         text_box.delete(0, tk.END)
 
@@ -33,12 +56,12 @@ no = False
 yes = True
 
 window_width = 350
-window_height = 450
+window_height = 520
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
-x_cord = screen_width - window_width
-y_cord = screen_height - window_height
+x_cord = (screen_width - window_width) // 2
+y_cord = (screen_height - window_height) // 2
 
 outline_color_codes = [
     "#25465A",  # Steel blue - separator and default outline
@@ -163,10 +186,12 @@ animation_canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=yes, padx=20, pady=(20, 
 
 greeting_msg = ctk.CTkLabel(
     main_content,
-    text=random.choice(greeting_messages),
+    text="",
     font=("Orbitron", 16),
     wraplength=250,
     justify="center",
+    width=250,
+    height=140,
 )
 greeting_msg.pack(side=tk.TOP, pady=(0, 20))
 
@@ -181,6 +206,7 @@ icon_image = tk.PhotoImage(master=root, file=str(icon_path))
 root.iconphoto(no, icon_image)
 root.iconbitmap(str(icon_path.with_suffix(".ico")))
 
+type_greeting(random.choice(greeting_messages))
 root.after_idle(text_box.focus_set)
 
 root.mainloop()
