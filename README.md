@@ -129,18 +129,7 @@ Some existing functionality accesses system information, location-related data, 
 
 Always review the source code before running software that interacts with your system.
 
-🤝 Contributing
-
-Ideas, suggestions, and contributions are welcome!
-
-If you'd like to help improve Anna:
-
-Fork the repository.
-Create a new branch.
-Make your changes.
-Submit a pull request.
-
-Whether it's improving the interface, adding new functionality, or experimenting with AI integrations, contributions are appreciated.
+Also please do not copy the original code, this is a personal project and i don't want copies flying around the web 
 
 👨‍💻 Author
 
