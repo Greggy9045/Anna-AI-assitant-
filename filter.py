@@ -219,6 +219,6 @@ def process_message(msg):
                 return "Volume percentage must be between 0 and 100."
 
             return set_master_volume(percent)
-    
+
     return msg 
 
